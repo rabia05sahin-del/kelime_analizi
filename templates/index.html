@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akıllı Kelime Öneri Sistemi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f5fb;
+            color: #20243a;
+            margin: 0;
+            padding: 40px 16px;
+        }
+        .container {
+            max-width: 700px;
+            margin: 30px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px #20243a15;
+        }
+        h1 { text-align: center; color: #5145cd; }
+        p { color: #666; text-align: center; }
+        form { display: flex; gap: 10px; margin-top: 28px; }
+        input {
+            flex: 1;
+            min-width: 0;
+            padding: 14px;
+            border: 1px solid #d5d7e5;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 14px 18px;
+            border: none;
+            border-radius: 10px;
+            background: #5145cd;
+            color: white;
+            cursor: pointer;
+        }
+        .error {
+            margin-top: 20px;
+            padding: 14px;
+            background: #fff0f0;
+            color: #a12626;
+            border-radius: 10px;
+        }
+        .results { margin-top: 28px; }
+        .word {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px;
+            margin-top: 9px;
+            background: #f6f5ff;
+            border-radius: 10px;
+        }
+        .score { color: #5145cd; font-weight: bold; }
+        @media (max-width: 600px) {
+            form { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <h1>Akıllı Kelime Öneri Sistemi</h1>
+        <p>Bir Türkçe kelime yaz ve benzer kelimeleri keşfet.</p>
+
+ 
+<form method="POST">
+    <input
+        type="text"
+        name="kelime"
+        placeholder="Örnek: mutlu, mutsuz, güzel"
+        value="{{ kelime }}"
+        required
+    >
+    <button type="submit">Kelime Bul</button>
+</form>
+        {% if hata %}
+            <div class="error">{{ hata }}</div>
+        {% endif %}
+
+        {% if oneriler %}
+            <div class="results">
+                <h2>Önerilen Kelimeler</h2>
+
+                {% for kelime, skor in oneriler %}
+                    <div class="word">
+                        <span>{{ kelime }}</span>
+                        <span class="score">{{ "%.2f"|format(skor * 100) }}%</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </main>
+</body>
+</html>
